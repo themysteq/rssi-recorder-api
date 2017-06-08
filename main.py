@@ -6,9 +6,11 @@ api = Api(app)
 FILES_DIR = "store/"
 UPLOAD_DIR = "C:\UPLOAD"
 
+
 class HelloWorld(Resource):
     def get(self):
         return {'hello':'world'}
+
 
 class Plans(Resource):
     def get(self):
@@ -20,7 +22,7 @@ class Plans(Resource):
         return {'request': request.content_length}
 
 api.add_resource(Plans, '/plans')
-api.add_resource(HelloWorld,"/")
+api.add_resource(HelloWorld, "/")
 
 if __name__ == '__main__':
     app.run(debug=True)
