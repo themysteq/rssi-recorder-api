@@ -1,7 +1,9 @@
-from flask import Flask, request, make_response, send_file
+from flask import Flask, request, make_response, send_file, jsonify
 from flask_restful import Resource, Api
 import logging
 import os
+import json
+
 logging.basicConfig(level=logging.DEBUG)
 app = Flask(__name__)
 api = Api(app)
@@ -28,13 +30,20 @@ class Bundles(Resource):
         logger.debug(files)
         return current_bundles
 
+    def post(self):
+        bundle = request.get_json()
+       # savepath = os.path.join(BUNDLES_UPLOAD_DIR,bundle['']+)
+        # with open('file.json', 'w') as f:
+        #json.dump(request.form, f)
+        return bundle['building_plan_filename']
+
 
 class RawPlans(Resource):
     def get(self, filename=None):
 
         if(filename is None):
             files = os.listdir(RAWPLANS_UPLOAD_DIR)
-            return files
+            return jsonify(files)
         else:
             response = make_response()
             return send_file(RAWPLANS_UPLOAD_DIR+'/'+filename, mimetype='image/png')
