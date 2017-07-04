@@ -30,12 +30,18 @@ class Bundles(Resource):
         logger.debug(files)
         return current_bundles
 
-    def post(self):
+    def post(self, filename=None):
+        #FIXME: unsafe due to lack of filename parsing
         bundle = request.get_json()
-       # savepath = os.path.join(BUNDLES_UPLOAD_DIR,bundle['']+)
+        #with open()
+        if filename is not None:
+            savepath = os.path.join(BUNDLES_UPLOAD_DIR, filename)
+            logger.debug("savepath: "+savepath)
+            with open(savepath, 'w') as f:
+                json.dump(bundle, f)
         # with open('file.json', 'w') as f:
         #json.dump(request.form, f)
-        return bundle['building_plan_filename']
+        return jsonify({'plan': bundle['building_plan_filename'], 'bundle': filename})
 
 
 class RawPlans(Resource):
@@ -64,7 +70,7 @@ class Plans(Resource):
         return {'request': request.content_length}
 
 api.add_resource(Plans, '/plans', '/plans/<filename>')
-api.add_resource(Bundles, '/bundles')
+api.add_resource(Bundles, '/bundles', '/bundles/<filename>')
 api.add_resource(RawPlans, '/rawplans', '/rawplans/<filename>')
 api.add_resource(HelloWorld, "/")
 
