@@ -69,9 +69,29 @@ class Plans(Resource):
     def post(self):
         return {'request': request.content_length}
 
+
+class Measures(Resource):
+
+    def get(self):
+        return "MEASURES"
+
+    def post(self, filename=None):
+    #FIXME: unsafe due to lack of filename parsing
+        measure = request.get_json()
+        #with open()
+        if filename is not None:
+            savepath = os.path.join(MEASURES_UPLOAD_DIR, filename)
+            logger.debug("savepath: "+savepath)
+            with open(savepath, 'w') as f:
+                json.dump(measure, f)
+        # with open('file.json', 'w') as f:
+        #json.dump(request.form, f)
+        return {'measure': filename}
+
 api.add_resource(Plans, '/plans', '/plans/<filename>')
 api.add_resource(Bundles, '/bundles', '/bundles/<filename>')
 api.add_resource(RawPlans, '/rawplans', '/rawplans/<filename>')
+api.add_resource(Measures,'/measures','/measures/<filename>')
 api.add_resource(HelloWorld, "/")
 
 if __name__ == '__main__':
