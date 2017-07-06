@@ -1,4 +1,4 @@
-from flask import Flask, request, make_response, send_file, jsonify
+from flask import Flask, request, make_response, send_file, jsonify, render_template
 from flask_restful import Resource, Api
 import logging
 import os
@@ -87,6 +87,14 @@ class Measures(Resource):
         # with open('file.json', 'w') as f:
         #json.dump(request.form, f)
         return {'measure': filename}
+
+
+@app.route('/')
+def main():
+    plan = request.args.get('plan')
+    #FIXME: security issue? path traversal?
+    return render_template('index.html', plan=plan)
+
 
 api.add_resource(Plans, '/plans', '/plans/<filename>')
 api.add_resource(Bundles, '/bundles', '/bundles/<filename>')

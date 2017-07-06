@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}index{% endblock %}
+{% block add_head %}  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.1.0/dist/leaflet.css"
+   integrity="sha512-wcw6ts8Anuw10Mzh9Ytw4pylW8+NAD4ch3lqm9lzAsTxg0GFeJgoAtxuCLREZSC5lUXdVyo/7yfsqFjQ4S+aKw=="
+   crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.1.0/dist/leaflet.js"
+   integrity="sha512-mNqn2Wg7tSToJhvHcqfzLMU6J4mkOImSPTxVZAdo+lcPlk+GhZmYgACEe0x35K7YzW1zJ7XyJV/TT1MrdXvMcA=="
+   crossorigin=""></script>
+    <style>
+    #mapid { height: 600px; }
+    </style>
+{% endblock %}
+{% block container %}
+    <div class="row">
+        <div class="col-xs-4">huehue left</div>
+        <div class="col-xs-8">hueh ue right</div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+
+            <div id="mapid"></div>
+            <script>
+                	var mymap = L.map('mapid',{ crs: L.CRS.Simple});
+                var bounds = [ [0,0] , [1300,3050]];
+                var image = L.imageOverlay('/rawplans/{{ plan }}',bounds).addTo(mymap);
+                mymap.fitBounds(bounds);
+
+
+            </script>
+
+
+        </div>
+    </div>
+{% endblock %}

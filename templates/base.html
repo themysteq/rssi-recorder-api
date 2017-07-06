@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/bootstrap.min.css') }}">
+    {% block add_head %}{% endblock %}
+    <title>{% block title %}Title{% endblock %}</title>
+</head>
+<body>
+{% block body %}
+
+        <div class="container">
+         {% block container %}
+        <h1>base template</h1>
+             {% endblock %}
+        </div>
+
+{% endblock %}
+</body>
+</html>
