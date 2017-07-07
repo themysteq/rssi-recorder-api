@@ -1,8 +1,7 @@
 from flask import Flask, request, make_response, send_file, jsonify, render_template
 from flask_restful import Resource, Api
-import logging
-import os
-import json
+from werkzeug.utils import secure_filename
+import logging, os, json
 
 logging.basicConfig(level=logging.DEBUG)
 app = Flask(__name__)
@@ -13,6 +12,7 @@ BUNDLES_UPLOAD_DIR = "C:\UPLOAD\BUNDLES"
 RAWPLANS_UPLOAD_DIR = "C:\UPLOAD\RAWPLANS"
 MEASURES_UPLOAD_DIR = "C:\UPLOAD\MEASURES"
 PLANS_UPLOAD_DIR = "C:\UPLOAD\PLANS"
+
 
 logger = logging.getLogger(__name__)
 
@@ -67,6 +67,8 @@ class Plans(Resource):
             return send_file(PLANS_UPLOAD_DIR+'/'+filename, mimetype='image/png')
 
     def post(self):
+        file = request.files['file']
+        logger.debug("file: "+file.filename)
         return {'request': request.content_length}
 
 
