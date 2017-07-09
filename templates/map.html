@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}index{% endblock %}
+{% block title %}Map for {{ plan }}{% endblock %}
 {% block add_head %}  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.1.0/dist/leaflet.css"
    integrity="sha512-wcw6ts8Anuw10Mzh9Ytw4pylW8+NAD4ch3lqm9lzAsTxg0GFeJgoAtxuCLREZSC5lUXdVyo/7yfsqFjQ4S+aKw=="
    crossorigin=""/>
@@ -17,15 +17,19 @@
         <div class="col-xs-8">hueh ue right</div>
     </div>
     <div class="row">
-        <div class="col-lg-6">
-            {% for rawplan in rawplans %}
-                <a href="{{ url_for('map',plan=rawplan) }}">Go to map {{ rawplan }}</a><br/>
-            {% endfor %}
-            </div>
-        <div class="col-lg-6">
-            {% for bundle in bundles %}
-                <a href="{{ url_for('bundles',filename=bundle) }}">{{ bundle }} <br>
-            {% endfor %}
+        <div class="col-lg-12">
+
+            <div id="mapid"></div>
+            <script>
+                	var mymap = L.map('mapid',{ crs: L.CRS.Simple});
+                var bounds = [ [0,0] , [1300,3050]];
+                var image = L.imageOverlay('/rawplans/{{ plan }}',bounds).addTo(mymap);
+                mymap.fitBounds(bounds);
+
+
+            </script>
+
+
         </div>
     </div>
 {% endblock %}
