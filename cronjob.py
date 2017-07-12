@@ -16,8 +16,6 @@ for plan in rawplans:
     planfile = "{0}.plan.png".format(hash)
     planfile_fullpath = os.path.join(m.PLANS_UPLOAD_DIR, planfile)
 
-    # master?
-    
     if not os.path.isfile(planfile_fullpath):
         copyfile(filepath, planfile_fullpath)
 
