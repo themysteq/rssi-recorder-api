@@ -17,6 +17,7 @@ for plan in rawplans:
     planfile_fullpath = os.path.join(m.PLANS_UPLOAD_DIR, planfile)
 
     # master?
+    
     if not os.path.isfile(planfile_fullpath):
         copyfile(filepath, planfile_fullpath)
 
