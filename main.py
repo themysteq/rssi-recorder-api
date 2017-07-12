@@ -3,16 +3,17 @@ from flask_restful import Resource, Api
 from pprint import pprint
 from werkzeug.utils import secure_filename
 import logging, os, json
+import properties as p
 
 logging.basicConfig(level=logging.DEBUG)
 app = Flask(__name__)
 api = Api(app)
 FILES_DIR = "store/"
-UPLOAD_DIR = "C:\UPLOAD"
-BUNDLES_UPLOAD_DIR = "C:\UPLOAD\BUNDLES"
-RAWPLANS_UPLOAD_DIR = "C:\UPLOAD\RAWPLANS"
-MEASURES_UPLOAD_DIR = "C:\UPLOAD\MEASURES"
-PLANS_UPLOAD_DIR = "C:\UPLOAD\PLANS"
+UPLOAD_DIR = p.UPLOAD_DIR
+BUNDLES_UPLOAD_DIR = p.BUNDLES_UPLOAD_DIR
+RAWPLANS_UPLOAD_DIR = p.RAWPLANS_UPLOAD_DIR
+MEASURES_UPLOAD_DIR = p.MEASURES_UPLOAD_DIR
+PLANS_UPLOAD_DIR = p.PLANS_UPLOAD_DIR
 
 
 logger = logging.getLogger(__name__)
@@ -144,4 +145,4 @@ api.add_resource(Measures,'/measures','/measures/<filename>',endpoint='measures'
 api.add_resource(HelloWorld, "/")
 
 if __name__ == '__main__':
-    app.run(debug=True, host="0.0.0.0", port=9999)
+    app.run()
