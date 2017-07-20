@@ -24,7 +24,7 @@
             </div>
         <div class="col-lg-6">
             {% for bundle in bundles %}
-                <a href="{{ url_for('bundles',filename=bundle) }}">{{ bundle }} </a><br>
+                <a href="{{ url_for('bundles',filename=bundle) }}">{{ bundle[:10] }}... </a> :: <a href="{{ url_for('bundle_map', filename=bundle) }}">map fot this</a> <br>
             {% endfor %}
         </div>
     </div>

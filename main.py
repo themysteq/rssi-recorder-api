@@ -1,5 +1,6 @@
 from flask import Flask, request, make_response, send_file, jsonify, render_template, abort
 from flask_restful import Resource, Api
+from flask_restful import url_for as apiurlfor
 from pprint import pprint
 from werkzeug.utils import secure_filename
 import logging, os, json
@@ -126,6 +127,14 @@ def map():
     plan = request.args.get('plan')
     return render_template('map.html', plan=plan)
 
+@app.route('/bundle_map/<filename>')
+def bundle_map(filename=None):
+    with open(os.path.join(BUNDLES_UPLOAD_DIR, filename), 'rt') as bundle_file:
+            bundle_data = json.load(bundle_file)
+    #plan_filename = data['building_plan_filename']
+    #FIXME: passing data straight from disk!
+    return render_template('bundle_map.html', bundle=bundle_data)
+
 @app.route('/bundle_details/<bundle>')
 def bundle_detail(bundle=None):
     if bundle is None:
@@ -145,4 +154,5 @@ api.add_resource(Measures,'/measures','/measures/<filename>',endpoint='measures'
 api.add_resource(HelloWorld, "/")
 
 if __name__ == '__main__':
+    #app.run(host="0.0.0.0",port=9999)
     app.run()
