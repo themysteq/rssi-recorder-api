@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}bundle map for {{ bundle_map }}{% endblock %}
+{% block add_head %}  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.1.0/dist/leaflet.css"
+   integrity="sha512-wcw6ts8Anuw10Mzh9Ytw4pylW8+NAD4ch3lqm9lzAsTxg0GFeJgoAtxuCLREZSC5lUXdVyo/7yfsqFjQ4S+aKw=="
+   crossorigin=""/>
+    <script src="{{ url_for('static',filename='js/mymap.js') }}"></script>
+<script src="https://unpkg.com/leaflet@1.1.0/dist/leaflet.js"
+   integrity="sha512-mNqn2Wg7tSToJhvHcqfzLMU6J4mkOImSPTxVZAdo+lcPlk+GhZmYgACEe0x35K7YzW1zJ7XyJV/TT1MrdXvMcA=="
+   crossorigin=""></script>
+    <style>
+    #mapid { height: 600px; }
+    </style>
+{% endblock %}
+{% block container %}
+    <div class="row">
+        <div class="col-xs-4">Measures: {{ bundle.measures_per_plan_paths | count }}
+            <hr>
+            {{ bundle.plan_bundle_name }}
+            <ul>
+                {% for measure in bundle.measures_per_plan_paths %}
+                <li> <a href="#" onclick="loadMeasure('{{ measure }}')">{{ measure }}</a> </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-xs-8">Current measure: NOT DEFINED </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+
+            <div id="mapid"></div>
+            <script>
+                	var mymap = L.map('mapid',{ crs: L.CRS.Simple});
+                var bounds = [ [0,0] , [1300,3050]];
+                var image = L.imageOverlay("{{ url_for('plans',filename=bundle.building_plan_filename)  }}",bounds).addTo(mymap);
+                mymap.fitBounds(bounds);
+
+
+            </script>
+            <script>
+                var markers = [];
+                function loadMeasure(measure){
+                    //alert("in file: "+measure);
+                    markers  = [];
+                    $.getJSON("{{ url_for('measures') }}/"+measure,function( data){
+                        measures = data['measures'];
+                        //console.log(measures);
+                        console.log("hopping measures");
+                        $.each(measures,function(key,value){
+
+                            //console.log("x: "+value['x'] + ", y: "+value['y']);
+                            var scan_result = JSON.stringify(value['scan_results']);
+                            var marker = L.marker([1300 - value['y'], value['x']],{title: scan_result });
+                            //markers.append(marker);
+                            marker.addTo(mymap);
+                        });
+
+                    })
+                }
+            </script>
+
+        </div>
+    </div>
+{% endblock %}
