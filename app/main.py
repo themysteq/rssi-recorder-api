@@ -154,5 +154,5 @@ api.add_resource(Measures,'/measures','/measures/<filename>',endpoint='measures'
 api.add_resource(HelloWorld, "/")
 
 if __name__ == '__main__':
-    #app.run(host="0.0.0.0",port=9999)
-    app.run()
+    app.run(host="0.0.0.0",port=5000)
+    #app.run()
