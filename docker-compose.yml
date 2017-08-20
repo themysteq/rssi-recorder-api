@@ -1,0 +1,11 @@
+version: '3'
+services:
+  webapi:
+    image: registry.mysteq.pl/apps/rssi-recorder-api:latest
+    volumes:
+    - data-volume:/UPLOAD
+    
+    ports:
+      - 127.0.0.1:9999:5000
+volumes:
+  data-volume:
