@@ -1,5 +1,5 @@
 from flask import Flask, request, make_response, send_file, jsonify, render_template, abort
-from flask_restful import Resource, Api
+from flask_restful import Resource, Api, NotFound, NotAcceptable
 from flask_restful import url_for as apiurlfor
 from pprint import pprint
 from werkzeug.utils import secure_filename
@@ -79,9 +79,15 @@ class Plans(Resource):
             return send_file(PLANS_UPLOAD_DIR+'/'+filename, mimetype='image/png')
 
     def post(self):
-        file = request.files['file']
-        logger.debug("file: "+file.filename)
-        return {'request': request.content_length}
+        if len(request.files) > 0:
+            file = request.files['file']
+            #logger.debug(str(file.filename))
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(PLANS_UPLOAD_DIR, filename))
+            return jsonify({"status" : "Stored as {0}".format(str(filename))})
+        else:
+            response = make_response(jsonify({"error": "empty file?"}), 400)
+            return response
 
 
 class Measures(Resource):
