@@ -6,6 +6,7 @@ EXPOSE 5000
 
 RUN apt-get update && \
 	apt-get install -y --no-install-recommends ca-certificates 
+ARG GIT_COMMIT
 ADD app/ /app
 RUN pip install -r /app/requirements.txt && pip install j2cli 
 
